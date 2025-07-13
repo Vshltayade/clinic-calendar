@@ -26,13 +26,23 @@ export default function CalendarPage(){
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <h1 className="text-2xl font-bold mb-4">Appointment Calendar</h1>
-      {windowWidth >= 768 ? (
+      <div className={`${darkMode ? "dark" : ""}`}>
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 dark:text-white p-4">
+        <div className="flex justify-between mb-4">
+            <h1 className="text-2xl font-bold">Appointment Calendar</h1>
+            <button
+            onClick={() => setDarkMode(!darkMode)}
+            className="text-sm px-3 py-1 rounded bg-gray-300 dark:bg-gray-700"
+            >
+            Toggle {darkMode ? "Light" : "Dark"} Mode
+            </button>
+        </div>
+        {windowWidth >= 768 ? (
         <CalendarM appointments={appointments} setAppointments={setAppointments} />
       ) : (
         <CalendarD appointments={appointments} setAppointments={setAppointments} />
       )}
+        </div>
     </div>
   );
     
