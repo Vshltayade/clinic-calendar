@@ -1,7 +1,6 @@
 import { useState } from "react";
-
-const patients = ["John Doe", "Jane Smith", "Alice Johnson"];
-const doctors = ["Dr. Patel", "Dr. Adams", "Dr. Lee"];
+import patients from "../utils/patients.json";
+import doctors from "../utils/doctors.json";
 
 export default function AppointmentForm({ date, onSave, onClose, initialData }){
 
