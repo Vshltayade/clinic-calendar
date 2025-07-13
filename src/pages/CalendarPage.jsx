@@ -6,6 +6,7 @@ export default function CalendarPage(){
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [appointments, setAppointments] = useState([]);
+  const [darkMode, setDarkMode] = useState(false);
   
   useEffect(() => {
     const saved = localStorage.getItem("appointments");

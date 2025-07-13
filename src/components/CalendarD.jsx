@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import AppointmentForm from "./AppointmentForm";
-import doctors from "../data/doctors.json";
-import patients from "../data/patients.json";
+import doctors from "../utils/doctors.json";
+import patients from "../utils/patients.json";
 
 export default function CalendarD({ appointments, setAppointments }) {
   const [selectedDate, setSelectedDate] = useState(format(new Date(), "yyyy-MM-dd"));
