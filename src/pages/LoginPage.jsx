@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function LoginPage() {
+export default function LoginPage({ onLogin }) {
     
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,7 +11,8 @@ export default function LoginPage() {
   const handleLogin = (e) => {
     e.preventDefault();
     if (email === "staff@clinic.com" && password === "123456") {
-      localStorage.setItem("logged", "true");
+      localStorage.setItem("login", "true");
+      onLogin?.();
       navigate("/calendar");
     } else {
       setError("Invalid email or password.");
