@@ -1,6 +1,14 @@
 import { useState } from "react";
-import {startOfMonth, startOfWeek, addDays, format, isSameMonth} from "date-fns";
+import {
+  startOfMonth,
+  startOfWeek,
+  addDays,
+  format,
+  isSameMonth,
+  isToday,
+} from "date-fns";
 import AppointmentForm from "./AppointmentForm";
+import { v4 as uuidv4 } from "uuid";
 
 export default function CalendarM({ appointments, setAppointments }) {
   const [currentDate] = useState(new Date());
@@ -18,20 +26,24 @@ export default function CalendarM({ appointments, setAppointments }) {
 
   const saveAppointment = (newAppt) => {
     if (formData) {
-      // Editing
+      // Edit existing by id
       const updated = appointments.map((a) =>
-        a === formData ? newAppt : a
+        a.id === formData.id ? { ...newAppt, id: formData.id } : a
       );
       setAppointments(updated);
     } else {
-      // Adding
-      setAppointments([...appointments, newAppt]);
+      // Add new appointment with id
+      setAppointments([...appointments, { ...newAppt, id: uuidv4() }]);
     }
+    setFormData(null);
+    setShowForm(false);
   };
 
   const deleteAppointment = (apptToDelete) => {
-    const updated = appointments.filter((a) => a !== apptToDelete);
-    setAppointments(updated);
+    if (window.confirm("Are you sure you want to delete this appointment?")) {
+      const updated = appointments.filter((a) => a.id !== apptToDelete.id);
+      setAppointments(updated);
+    }
   };
 
   const days = [];
@@ -49,13 +61,15 @@ export default function CalendarM({ appointments, setAppointments }) {
         className={`border h-28 p-1 overflow-auto text-sm cursor-pointer ${
           !isSameMonth(thisDate, currentDate)
             ? "bg-gray-200 text-gray-400"
+            : isToday(thisDate)
+            ? "bg-blue-100"
             : "bg-white hover:bg-blue-50"
         }`}
       >
         <div className="font-bold">{format(thisDate, "d")}</div>
-        {dayAppointments.map((appt, index) => (
+        {dayAppointments.map((appt) => (
           <div
-            key={index}
+            key={appt.id}
             className="flex justify-between items-center text-xs mt-1"
             onClick={(e) => {
               e.stopPropagation();
@@ -84,7 +98,10 @@ export default function CalendarM({ appointments, setAppointments }) {
     <>
       <div className="grid grid-cols-7 gap-px bg-gray-300">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
-          <div key={d} className="bg-white font-semibold text-center p-2 border">
+          <div
+            key={d}
+            className="bg-white font-semibold text-center p-2 border"
+          >
             {d}
           </div>
         ))}
